@@ -1,0 +1,14 @@
+@media screen and (max-width:700px){
+    .table-Header{
+        display: none;
+
+       
+    }
+   .chart{
+   display:none
+   }
+}
+.chart{
+    width: 50%; 
+     height: 250px;
+}

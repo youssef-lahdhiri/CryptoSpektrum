@@ -1,0 +1,23 @@
+@media screen and (max-width:700px){
+    .divv{
+        display:grid;
+        grid-template-columns: 1;
+        width: 200%;
+    }
+    .divv>p{
+        width: 100%;
+    }
+    .chart1{
+        height: 100px; 
+        width: 100%;
+    }
+    .main{
+        width: 100%;
+    }
+}
+.divv > p {
+    width: calc((100% - 12px) / 2);
+}
+.chart1{
+    height: 500px;
+}

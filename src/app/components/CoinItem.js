@@ -6,7 +6,7 @@ const CoinItem = ({ coin }) => {
     const price=Math.floor((coin.price*100))/100;
     console.log(parseFloat(8.9999999))
    return  (
-  <div className='   border rounded-md '>
+  <div className='   shadow-md  border rounded-md '>
    
     <Link className='flex  cursor-pointer' href={`/coin/${coin.uuid}`}>
       <div className= 'cursor-pointer w-48 flex flex-row gap-4 p-3 items-center'>

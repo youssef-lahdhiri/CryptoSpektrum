@@ -2,6 +2,8 @@
 // import { Link } from "next/link";
 // import {Image} from 'next/Image';
 
+import { DiVim } from "react-icons/di";
+
 // export default function Table({props}){
 //     const coins=props?.coins
 //     return (
@@ -25,4 +27,9 @@
 //           </div>
 //           </>
 //     );
-// }
+// 
+export default function Page(){
+    return(
+        <div>help</div>
+    )
+}

@@ -2,6 +2,8 @@
 import { Line } from 'react-chartjs-2';
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import './style.css';
+
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { RiSpectrumLine } from "react-icons/ri";
@@ -33,6 +35,7 @@ export default function Home() {
   const [General,setGeneral]=useState([])
   const [coins, setCoins] = useState([]);
   const [chartData, setChartData] = useState({ labels: [], datasets: [] });
+  const [chartData1, setChartData1] = useState({ labels: [], datasets: [] });
   const [search, setSearch] = useState('');
   const [shown, setShown] = useState([]);
   const sea = useRef(null);
@@ -54,8 +57,11 @@ export default function Home() {
   };
   const fetchCoinData = async () => {
     try {
+      
+      
       const response = await fetch(url, options);
       const result = await response.json();
+      const result1=result.data.coins[1]?.sparkline.map(price => parseFloat(price))
       setGeneral(result.data.stats)
       setCoins(result.data.coins.slice(0, 40));
       setShown(result.data.coins.slice(0, 40));
@@ -77,6 +83,17 @@ export default function Home() {
           tension: 0.1
         }]
       });
+      setChartData1({
+        labels: labels,
+        datasets: [{
+          label: `${result.data.coins[1]?.name} Price (last 24 hours)`,
+          data: result1,
+          fill: false,
+          borderColor: 'blue',
+          backgroundColor: 'blue',
+          tension: 0.1
+        }]
+      });
       console.log(result);
     } catch (error) {
       console.error(error);
@@ -92,23 +109,24 @@ export default function Home() {
 
   return (
     <>
-      <div className='w-2/3 right-40 items-center place-items-center m m-auto'>
+      <div className=' shadow-md w-2/3 right-40 items-center place-items-center m m-auto'>
        <Header></Header>
        <h3>General Stats :</h3>
        <GenerarlStats coins={General}></GenerarlStats>
        <h3>Top coins :</h3>
        <div className='w-full '><CoinList  coins={coins}></CoinList></div>
-          <div className='flex gap w-full gap-3 flex-row'>
-          <div  className='border rounded-md w-1/2 '><Line   data={chartData} options={{maintainAspectRatio:false}} /></div>
-          <div  className='border rounded-md w-1/2 '><Line   data={chartData} options={{maintainAspectRatio:false}} /></div>
+          <div className='flex  justify-around w-full gap-3 flex-row'>
+          <div  className='border rounded-md  h-40  chart '><Line   data={chartData} options={{elements:{point:{radius:0}}}} /></div>
+          <div  className='border rounded-md   chart '><Line   data={chartData1} options={{elements:{point:{radius:0}}}} /></div>
            </div>
            <p>All Coins:</p>
            <div>Search Coin <input placeholder='Example: Bitcoin' className='text-black' ref={sea} value={search} title='Search Coins' onChange={change} type="text" /></div>
          
           <div className='mt-5'>
-            <div className='border grid grid-flow-col grid-cols-4 p-6'>
-              <span style={{ cursor: 'pointer' }} className='text-center ml-8'>rank</span>
-              <span>name</span><span className='mr-6'>price</span><span>24 hour change</span>
+            <div   className='table-Header border flex  justify-between  p-3'>
+              <span style={{ cursor: 'pointer' }} className='flex gap-8 '># <p>name</p> </span>
+              <span className=''>   </span><span className=''>price</span><span>24 hour change</span><span>24h Volume/ Market Cap </span>
+             
             </div>
             {shown?shown.map((i,index)=> <TableRow key={index} coin={i} ></TableRow>
         ):'loading'}

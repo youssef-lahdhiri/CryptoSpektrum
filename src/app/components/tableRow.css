@@ -1,0 +1,17 @@
+@media screen and (max-width:700px){
+.price{
+    display:none;
+}
+/* .box2>div{
+    display:none;
+} */
+.hide{
+    display:none;
+}
+.change{
+    display:none;
+}
+.name{
+    display:block;
+}
+}

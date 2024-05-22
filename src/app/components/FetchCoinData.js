@@ -44,5 +44,7 @@ export const fetchCoinData = async () => {
       };
   
       return { coins, chartData };
-    } catch (error)
-}
+    } catch (error){
+      console.log(error)
+    };
+};

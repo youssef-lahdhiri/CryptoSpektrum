@@ -1,0 +1,10 @@
+@media screen and (max-width:700px){
+    .box{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .box>p{
+        width: 100%;
+        height: calc(160px/4);
+    }
+}

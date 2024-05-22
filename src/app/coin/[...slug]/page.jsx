@@ -2,7 +2,9 @@
 import { Line ,Bar} from 'react-chartjs-2';
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import formatNumber from '@/app/components/formatNumber';
 import Link from 'next/link';
+import './style.css'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -25,10 +27,16 @@ ChartJS.register(
 
 export default function App({ params }) {
   const time=['24h','7d','30d','1y','5y']
+  const now = new Date();
+        const labels = [];
+        for (let i = 23; i >= 0; i--) {
+          const hour = new Date(now.getTime() - i * 60 * 60 * 1000);
+          labels.push(hour.toISOString().substring(11, 16)); // Format HH:MM
+        }
   const [value,selectedValue]=useState('24h')
 
   const [coin, setCoin] = useState(null);
-  const [chartData, setChartData] = useState({ labels: [], datasets: [] });
+  const [chartData, setChartData] = useState({ labels: [labels], datasets: [] });
   const id = params?.slug[0];
   const url1 = `https://coinranking1.p.rapidapi.com/coin/${id}?referenceCurrencyUuid=yhjMzLPhuIDl&timePeriod=${value}`;
   const options1 = {
@@ -45,7 +53,10 @@ const option={
     point:{
       radius:0
     }
-  }
+  
+  },
+  responsive:true,
+  maintainAspectRatio:false,
 }
   useEffect(() => {
     const fetchHistory=async()=>{
@@ -55,14 +66,16 @@ const option={
         console.log(result )
         const hs=result.data.history.map((i)=>i.price)
         console.log(hs)
-        const timeStamp = result.data.history.map((i) => (new Date(i.timestamp * 1000).toLocaleDateString()));
+        
+        let timeStamp = result.data.history.map((i) => (new Date(i.timestamp * 1000).toLocaleDateString()));
+        
         setChartData({
-          labels: timeStamp.reverse(),
+          labels: (value=='24h')?labels:[...timeStamp].reverse(),
           datasets: [{
-            label: 'hello',
+            label: `${coin?.name}`,
             data: hs.reverse(),
             fill: false,
-            borderColor: 'green',
+            borderColor: 'blue',
             tension: 0.1
           }]
         });
@@ -80,12 +93,7 @@ const option={
         console.log(result.data.coin)
 
         // Generate labels for the last 24 hours
-        const now = new Date();
-        const labels = [];
-        for (let i = 23; i >= 0; i--) {
-          const hour = new Date(now.getTime() - i * 60 * 60 * 1000);
-          labels.push(hour.toISOString().substring(11, 16)); // Format HH:MM
-        }
+        
       } catch (error) {
         console.error(error);
       }
@@ -94,29 +102,34 @@ const option={
     fetchData();
   }, [id,value]);
 const se=useRef()
-const ddo=(event)=>{
+const changeValue=(event)=>{
   selectedValue(event.target.value)
 }
   return (
-    <div>
-      <h1>Coin Details</h1>
+    <div className='w-full h-full'>
+    <div className='m-auto w-2/3 mt-5 main '>
+      {/* <h1 className=''>Coin Details</h1> */}
       {coin ? (
-        <div>
-          <Link href='/'>Home</Link>
-          <Image src={coin.iconUrl} width={50} height={50} alt={`${coin.name} icon`} />
-          <p>{`${coin.name} (${coin.symbol})`}</p>
+        <div className=''>
+          <Link  href='/'><p className='shadow-md cursor-pointer border rounded-md  h-8 w-20 cursor-pointershadow-md    text-center' >Home</p></Link>
+          <div className='flex mt-5 mb-2 '><Image src={coin.iconUrl} width={50} height={50} alt={`${coin.name} icon`} />
+          <p className='m-auto ml-0 text-2xl font-bold'>{`${coin.name} (${coin.symbol})`}</p></div>
           <p>{coin.description}</p>
-          <p>Price: {coin.price}</p>
-          <p>Total Supply: {coin.supply.total}</p>
-          <p>Circulating Supply: {coin.supply.circulating}</p>
-          <p>Market Cap: {coin.marketCap}</p>
-          <p>24h Volume: {coin['24hVolume']}</p>
+          <div  className='divv flex flex-wrap gap-3 w-full'>
+          <p className='rounded-md shadow-md h-20 border text-center flex justify-center items-center  '>Price: ${formatNumber(coin.price)}</p>
+          <p className='rounded-md shadow-md h-20 border text-center flex justify-center items-center  '>Total Supply: {coin.supply.total}</p>
+          <p className='rounded-md shadow-md h-20 border text-center flex justify-center  items-center '>Circulating Supply: {coin.supply.circulating}</p>
+          <p className='rounded-md shadow-md h-20 border text-center flex justify-center items-center  '>Market Cap: ${formatNumber(coin.marketCap)}</p>
+          <p className='rounded-md shadow-md h-20 border text-center  flex justify-center items-center '>24h Volume: ${formatNumber(coin['24hVolume'])}</p>
+          </div>
         </div>
-      ) : (
+      ) : ( 
         <p>Loading...</p>
       )}
-      <select onChange={ddo} value={value} ref={se} className='flex flex-wrap absolute left-4  text-black w-20'>{time.map(i=>( <option className='text-black w-40 border text-center'> {i}</option> ))}</select>
-      <div className='h-auto w-1/2'><Line data={chartData} options={option} /></div>
-    </div>
+      <select onChange={changeValue} value={value} ref={se} className=' mt-5 mb-5 border rounded-md shadow-md h-8 w-16'>{time.map(i=>( <option className='text-black w-40 border text-center'> {i}</option> ))}</select>
+     
+      <div className='chart1'><Line className='chart1' data={chartData} options={option} /></div>
+     </div>
+     </div>
   );
 }
