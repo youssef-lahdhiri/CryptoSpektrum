@@ -24,7 +24,21 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
+export async function generateStaticParams() {
+  const url='https://coinranking1.p.rapidapi.com/coins?referenceCurrencyUuid=yhjMzLPhuIDl&timePeriod=24h&tiers%5B0%5D=1&orderBy=marketCap&orderDirection=desc&limit=50&offset=0'
+  const options1 = {
+    method: 'GET',
+    headers: {
+      'X-RapidAPI-Key': 'd037705952msh69a7d1cae7247fap11477bjsn8df3a6a779b5',
+      'X-RapidAPI-Host': 'coinranking1.p.rapidapi.com'
+    }
+  };
+  const posts = await fetch(url,options1).then((res) => res.json().data.coins.slice(0,40))
+ 
+  return posts.map((post) => ({
+    slug: post.slug,
+  }))
+}
 export default function App({ params }) {
   const time=['24h','7d','30d','1y','5y']
   const now = new Date();
