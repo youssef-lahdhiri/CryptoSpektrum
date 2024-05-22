@@ -11,7 +11,7 @@ export async function generateStaticParams(){
   };
   const res= await fetch('https://coinranking1.p.rapidapi.com/coins',option)
   const result =await res.json()
-return (result.data.coins.map(coin=>({id:coin.uuid.toString()
+return (result.data.coins.map(coin=>({id:coin.uuid.toString(),
 
 })))
 
@@ -19,7 +19,7 @@ return (result.data.coins.map(coin=>({id:coin.uuid.toString()
 
 
   export  default async function App({ params }) {
-    const id=params.slug
+    const id=params.id
     console.log('SLUG IS ',id)
     return (
       <Coin id={id} />
