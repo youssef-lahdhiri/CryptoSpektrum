@@ -1,4 +1,4 @@
-'use client';
+
 import { Line ,Bar} from 'react-chartjs-2';
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
