@@ -25,7 +25,7 @@ ChartJS.register(
   Legend
 );
 
-export default function App({ params }) {
+ export default  function App({ params }) {
   const time=['24h','7d','30d','1y','5y']
   const now = new Date();
         const labels = [];

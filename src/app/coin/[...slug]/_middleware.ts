@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 
 export const middleware = (request: NextRequest) => {
-    const [, myParam] = request.nextUrl.pathname.split('/some-root/')
+    const [, slug] = request.nextUrl.pathname.split('/coin/')
   
-    return NextResponse.rewrite(new URL(`/some-root?myParam=${myParam}`, request.url))
+    return NextResponse.rewrite(new URL(`/coin?slug=${slug}`, request.url))
   }
   
