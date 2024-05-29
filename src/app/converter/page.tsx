@@ -1,9 +1,9 @@
 'use client'
 import Rright from './right';
-import Main from './Main';
+// import Main from './Main';
 import Left from './left';
 import ContextProvider from './contextProvider';
-import ReverseButton from './button';
+// import ReverseButton from './button';
 
 export default function App() {
   return (
