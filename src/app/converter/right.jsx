@@ -1,6 +1,6 @@
 'use client'
 import Select from 'react-select'
-import { fetchCoinData } from './fetchCoin';
+// import { fetchCoinData } from './fetchCoin';
 import { useEffect, useRef, useState, createContext, useContext } from "react";
 import {LeftCoin, RightCoin,RightCoins,LeftCoins,SelectedCoin} from './contextProvider';
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
