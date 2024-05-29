@@ -2,7 +2,7 @@
 // import { fetchCoinData } from './fetchCoin';
 import { useEffect, useRef, useState, createContext, useContext } from "react";
 import {RightCoin,LeftCoin,LeftCoins, RightCoins, SelectedCoin} from './contextProvider'
-import { Order } from './button';
+// import { Order } from './button';
 import { DiVim } from 'react-icons/di';
 // import { RightContext } from './right';
 
