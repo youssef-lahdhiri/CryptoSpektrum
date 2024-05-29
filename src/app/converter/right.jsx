@@ -5,7 +5,7 @@ import { useEffect, useRef, useState, createContext, useContext } from "react";
 import {LeftCoin, RightCoin,RightCoins,LeftCoins,SelectedCoin} from './contextProvider';
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 
-export default function Rright({children}:React.ReactNode) {
+export default function Rright({children}) {
   const {rightCoins,setRightCoins}=useContext(RightCoins)
   const {leftCoins,setLeftCoins}=useContext(LeftCoins)
   const [converted, setConverted] = useState(1);

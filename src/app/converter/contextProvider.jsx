@@ -6,7 +6,7 @@ import { createContext } from "react";
     export const RightCoins=createContext(null)
     export const SelectedCoin=createContext(null)
 
-export default function ContextProvider({children}:React.ReactNode){
+export default function ContextProvider({children}){
  
     const [rightCoins,setRightCoins]=useState(null)
     const [leftCoins,setLeftCoins]=useState(null)
