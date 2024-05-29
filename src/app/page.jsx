@@ -1,9 +1,10 @@
 'use client';
+import App from './converter/page'
 import { Line } from 'react-chartjs-2';
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import './style.css';
-
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { RiSpectrumLine } from "react-icons/ri";
@@ -12,6 +13,7 @@ import Header from './components/Header'
 import TableRow from './components/TableRow';
 import CoinList from './components/CoinList'
 import GenerarlStats from './components/GeneralStats';
+import { clsx } from 'clsx/lite';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -32,6 +34,7 @@ ChartJS.register(
   Legend
 );
 export default function Home() {
+  const [loading,setLoading]=useState(false)
   const [General,setGeneral]=useState([])
   const [coins, setCoins] = useState([]);
   const [chartData, setChartData] = useState({ labels: [], datasets: [] });
@@ -94,25 +97,42 @@ export default function Home() {
           tension: 0.1
         }]
       });
+      setLoading(true);
+      console.log(loading)
       console.log(result);
     } catch (error) {
       console.error(error);
     }
   };
   useEffect(() => {
+    // const id=setInterval((loading) => {loading=false;
+    //   console.log(loading)
+    // }, 200);
     fetchCoinData();
+  // return(clearInterval(id));
   }, []);
   const change = () => {
     setSearch(sea.current?.value);
     setShown(coins.filter(i => i.name.toLowerCase().includes(sea.current?.value.toLowerCase())));
   };
-
+const [active,setActive]=useState(false)
   return (
-    <>
-      <div className=' shadow-md w-2/3 right-40 items-center place-items-center m m-auto'>
-       <Header></Header>
-       <h3>General Stats :</h3>
+    <>{loading?
+      <motion.div
+      initial={{opacity:0,y:100}}
+      animate={{opacity:1,y:0}}
+      className='  shadow-md w-2/3 right-40 items-center place-items-center m m-auto'>
+       <Header
+       ></Header>
+       <motion.h1
+       initial={{opacity:0,y:100}}
+       animate={{opacity:1,y:0}}>General Stats :</motion.h1>
        <GenerarlStats coins={General}></GenerarlStats>
+       <div className='flex flex-row  relative w-[20rem]'> <p className={clsx('rounded-full duration-200 w-1/2 z-[-1] absolute bg-black opacity-20 h-full  ', active&&'translate-x-full')}
+
+       >1</p><div className=' flex w-full font-bold text-xl'> <p className='cursor-pointer w-1/2  text-center px-10' onClick={()=>{setActive(false)}}>Main</p><p onClick={()=>{setActive(true)}} className='w-1/2  cursor-pointer px-10 text-center'>Converter</p></div></div>
+       
+       <div className={active?'hidden':''}>
        <h3>Top coins :</h3>
        <div className='w-full '><CoinList  coins={coins}></CoinList></div>
           <div className='flex  justify-around w-full gap-3 flex-row'>
@@ -130,8 +150,9 @@ export default function Home() {
             </div>
             {shown?shown.map((i,index)=> <TableRow key={index} coin={i} ></TableRow>
         ):'loading'}
-          </div>
-        </div>
+          </div></div>
+          <div className={active?'':'hidden '}><App ></App></div>
+        </motion.div>:<div  className='w-full text-3xl font-bold h-1/2 p-10 animate-bounce'><div className=' mt-60 text-center w-1/2 m-auto'>loading...</div> </div>}
     </>
   );
 }

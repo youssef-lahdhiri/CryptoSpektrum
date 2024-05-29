@@ -1,3 +1,4 @@
+
 export const fetchCoinData = async () => {
     const url1 = 'https://coinranking1.p.rapidapi.com/coin/Qwsogvtv82FCd?referenceCurrencyUuid=yhjMzLPhuIDl&timePeriod=24h';
     const options1 = {

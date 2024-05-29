@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Select Tag with Limited Options</title>
+<style>
+  /* Style the container */
+  .custom-select {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+  }o
+
+  /* Hide the default select element */
+  .custom-select select {
+    display: none;
+  }
+
+  /* Style the selected item */
+  .select-selected {
+    background-color: #f1f1f1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
+
+  /* Style the items (options) */
+  .select-items {
+    position: absolute;
+    background-color: #f1f1f1;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    border: 1px solid #ccc;
+    z-index: 99;
+  }
+
+  /* Style the individual options */
+  .select-items div {
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  /* Style options on hover */
+  .select-items div:hover {
+    background-color: #ddd;
+  }
+
+  /* Show the dropdown items when the container is active */
+  .custom-select.active .select-items {
+    max-height: 100px;
+    overflow-y:scroll;
+    scr /* Adjust based on desired number of visible options */
+  }
+</style>
+</head>
+<body>
+
+<div class="custom-select">
+  <div class="select-selected">Select an option</div>
+  <div class="select-items">
+    <div data-value="1">Option 1</div>
+    <div data-value="2">Option 2</div>
+    <div data-value="3">Option 3</div>
+    <div data-value="4">Option 4</div>
+    <div data-value="5">Option 5</div>
+    <div data-value="6">Option 6</div>
+    <div data-value="7">Option 7</div>
+    <div data-value="8">Option 8</div>
+    <div data-value="9">Option 9</div>
+    <div data-value="10">Option 10</div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const selectContainer = document.querySelector('.custom-select');
+    const selected = selectContainer.querySelector('.select-selected');
+    const items = selectContainer.querySelector('.select-items');
+
+    selected.addEventListener('click', function() {
+      selectContainer.classList.toggle('active');
+    });
+
+    items.addEventListener('click', function(event) {
+      if (event.target.matches('.select-items div')) {
+        selected.textContent = event.target.textContent;
+        selected.setAttribute('data-value', event.target.getAttribute('data-value'));
+        selectContainer.classList.remove('active');
+      }
+    });
+
+    document.addEventListener('click', function(event) {
+      if (!selectContainer.contains(event.target)) {
+        selectContainer.classList.remove('active');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
