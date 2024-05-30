@@ -130,8 +130,8 @@ const [active,setActive]=useState(false)
        <h3>Top coins :</h3>
        <div className='w-full '><CoinList  coins={coins}></CoinList></div>
           <div className='flex  justify-around w-full gap-3 flex-row'>
-          <Suspense fallback={<p>load...</p>
-          }> <div  className='border rounded-md  h-40  chart '><Line   data={chartData} options={{elements:{point:{radius:0}}}} /></div></Suspense>
+          
+          <div  className='border rounded-md  h-40  chart '><Line   data={chartData} options={{elements:{point:{radius:0}}}} /></div>
           <div  className='border rounded-md   chart '><Line   data={chartData1} options={{elements:{point:{radius:0}}}} /></div>
            </div>
            <p>All Coins:</p>
@@ -141,8 +141,8 @@ const [active,setActive]=useState(false)
               <span style={{ cursor: 'pointer' }} className='flex gap-8 '># <p>name</p> </span>
               <span className=''>   </span><span className=''>price</span><span>24 hour change</span><span>24h Volume/ Market Cap </span>
             </div>
-           <Suspense fallback={<p>load</p>}> {shown.map((i,index)=> <TableRow key={index} coin={i} ></TableRow>
-        )}</Suspense>
+           {shown.map((i,index)=> <TableRow key={index} coin={i} ></TableRow>
+        )}
           </div></div>
           <div className={active?'mt-10 sm:mt-5 w-fit mx-auto':'hidden '}><App ></App></div>
         </motion.div> 
