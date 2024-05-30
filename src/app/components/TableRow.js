@@ -6,7 +6,7 @@ import  formatNumber  from './formatNumber.js';
 
 const TableRow = ({ coin }) => (
   <Link  href={`/coin/${coin?.uuid}`}>
-    <div style={{gridColumn:'1fr 1fr 3fr 3fr 3fr ' }} className=' box shadow-md mt-2 border rounded-md flex flex-cols justify-between h-20 gap-10   p-2 border-b cursor-pointer'>
+    <div style={{gridColumn:'1fr 1fr 3fr 3fr 3fr ' }} className='text-center box shadow-md mt-2 border rounded-md flex flex-cols justify-between h-20 gap-10   p-2 border-b cursor-pointer'>
       <div className='box2 flex '>
       <span className='mr-4'>{coin?.rank}</span>
       <Image className='h-10 align-center mb-12 ' src={coin?.iconUrl} width={40} height={40} />
@@ -15,7 +15,7 @@ const TableRow = ({ coin }) => (
         <span className='w-40 text-sm mt-2 name' >{coin?.name} {`(${coin?.symbol})`}</span>
       </span></div>
       <span className=' w-1/5 text-center price'>${Math.floor(coin?.price * 100) / 100}</span>
-      <span className={coin?.change.includes('-') ? ' change text-red-500 text-center' : 'text-green-600 text-center change'}>
+      <span className={coin?.change?.includes('-') ? ' change text-red-500 text-center' : 'text-green-600 text-center change'}>
         {coin?.change}
       </span>
       

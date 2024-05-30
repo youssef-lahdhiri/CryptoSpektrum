@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.2.5",
     "chart.js": "^4.4.3",
     "clsx": "^2.1.1",
     "clx": "^1.0.0",

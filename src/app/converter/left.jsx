@@ -19,7 +19,7 @@ export default function Left() {
   const ref = useRef(null);
   const selectedCoin = useRef(null);
   const {rightCoin, setRightCoin} = useContext(RightCoin);
-  const {leftCoin, setLeftCoin} = useContext(LeftCoin);
+  const {currt, setCurrt} = useContext(LeftCoin);
   
   const [firstLoad,setFirstLoad]=useState(true)
   // useEffect(()=>{
@@ -94,7 +94,7 @@ export default function Left() {
           // onClick={() => { selectedCoin.current.size = 5 }}  
           onChange={() => { console.log(coin);
             console.log(selectedCoin.current.options[selectedCoin.current.selectedIndex].text);
-            setLeftCoin(leftCoins[selectedCoin.current.options[selectedCoin.current.selectedIndex].getAttribute("data-index")]) 
+            // setLeftCoin(leftCoins[selectedCoin.current.options[selectedCoin.current.selectedIndex].getAttribute("data-index")]) 
             console.log(leftCoins[selectedCoin.current.options[selectedCoin.current.selectedIndex].getAttribute("data-index")]) }} 
           name="right" 
           id=""

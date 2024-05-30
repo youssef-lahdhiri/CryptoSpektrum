@@ -1,4 +1,4 @@
-
+import Header from '@/app/components/Header'
 
 import Coin from './coin'
 export async function generateStaticParams(){
@@ -20,8 +20,11 @@ return (result.data.coins.map(coin=>({id:coin.uuid.toString(),
 
   export  default async function App({ params }) {
     const id=params.id
-    console.log('SLUG IS ',id)
     return (
+      <>
+      <div className='flex items-center justify-center w-[20rem] mx-auto'>
+      <Header/></div>
       <Coin id={id} />
+      </>
     )
 }

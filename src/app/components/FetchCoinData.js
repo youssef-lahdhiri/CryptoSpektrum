@@ -1,4 +1,4 @@
-export const fetchCoinData = async () => {
+export async function fetchCoinData(){
     const url1 = 'https://coinranking1.p.rapidapi.com/coin/Qwsogvtv82FCd?referenceCurrencyUuid=yhjMzLPhuIDl&timePeriod=24h';
     const options1 = {
       method: 'GET',
@@ -12,14 +12,16 @@ export const fetchCoinData = async () => {
     const options = {
       method: 'GET',
       headers: {
-        'X-RapidAPI-Key': 'd037705952msh69a7d1cae7247fap11477bjsn8df3a6a779b5',
+        'X-RapidAPI-Key': process.env.API_KEY,
         'X-RapidAPI-Host': 'coinranking1.p.rapidapi.com'
       }
     };
   
     try {
-      const response = await fetch(url, options);
+      const response = await fetch(url, options1);
       const result = await response.json();
+      console.log('data fetching')
+      return result 
       const coins = result.data.coins.slice(0, 40);
   
       const now = new Date();
@@ -42,8 +44,7 @@ export const fetchCoinData = async () => {
           tension: 0.1
         }]
       };
-  
-      return { coins, chartData };
+      return result;
     } catch (error){
       console.log(error)
     };

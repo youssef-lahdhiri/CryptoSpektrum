@@ -1,7 +1,8 @@
 'use client';
+import {fetchCoin} from './fetchCoin'
 import App from './converter/page'
 import { Line } from 'react-chartjs-2';
-import React, { useEffect, useRef, useState } from 'react';
+import React, {Suspense ,useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import './style.css';
 import { motion } from 'framer-motion';
@@ -14,6 +15,7 @@ import TableRow from './components/TableRow';
 import CoinList from './components/CoinList'
 import GenerarlStats from './components/GeneralStats';
 import { clsx } from 'clsx/lite';
+// import {fetchCoinDataa} from '@/app/components/FetchCoinData'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -54,7 +56,7 @@ export default function Home() {
   const options = {
     method: 'GET',
     headers: {
-      'X-RapidAPI-Key': 'd037705952msh69a7d1cae7247fap11477bjsn8df3a6a779b5',
+      'X-RapidAPI-Key':'d037705952msh69a7d1cae7247fap11477bjsn8df3a6a779b5',
       'X-RapidAPI-Host': 'coinranking1.p.rapidapi.com'
     }
   };
@@ -62,9 +64,11 @@ export default function Home() {
     try {
       
       
-      const response = await fetch(url, options);
-      const result = await response.json();
-      const result1=result.data.coins[1]?.sparkline.map(price => parseFloat(price))
+      // const response = await fetchCoin();
+      // const result = await response.json()
+      const result=await fetchCoin()
+      console.log(`resilt is ${result}`)
+      // const result1=result.data.coins[1]?.sparkline.map(price => parseFloat(price))
       setGeneral(result.data.stats)
       setCoins(result.data.coins.slice(0, 40));
       setShown(result.data.coins.slice(0, 40));
@@ -117,11 +121,11 @@ export default function Home() {
   };
 const [active,setActive]=useState(false)
   return (
-    <>{loading?
+    <>
       <motion.div
       initial={{opacity:0,y:100}}
       animate={{opacity:1,y:0}}
-      className='  shadow-md w-2/3 right-40 items-center place-items-center m m-auto'>
+      className='  shadow-md sm:w-2/3 w-full right-40 items-center place-items-center m m-auto'>
        <Header
        ></Header>
        <motion.h1
@@ -136,7 +140,8 @@ const [active,setActive]=useState(false)
        <h3>Top coins :</h3>
        <div className='w-full '><CoinList  coins={coins}></CoinList></div>
           <div className='flex  justify-around w-full gap-3 flex-row'>
-          <div  className='border rounded-md  h-40  chart '><Line   data={chartData} options={{elements:{point:{radius:0}}}} /></div>
+          <Suspense fallback={<p>load...</p>
+          }> <div  className='border rounded-md  h-40  chart '><Line   data={chartData} options={{elements:{point:{radius:0}}}} /></div></Suspense>
           <div  className='border rounded-md   chart '><Line   data={chartData1} options={{elements:{point:{radius:0}}}} /></div>
            </div>
            <p>All Coins:</p>
@@ -148,11 +153,11 @@ const [active,setActive]=useState(false)
               <span className=''>   </span><span className=''>price</span><span>24 hour change</span><span>24h Volume/ Market Cap </span>
              
             </div>
-            {shown?shown.map((i,index)=> <TableRow key={index} coin={i} ></TableRow>
-        ):'loading'}
+           <Suspense fallback={<p>load</p>}> {shown.map((i,index)=> <TableRow key={index} coin={i} ></TableRow>
+        )}</Suspense>
           </div></div>
-          <div className={active?'':'hidden '}><App ></App></div>
-        </motion.div>:<div  className='w-full text-3xl font-bold h-1/2 p-10 animate-bounce'><div className=' mt-60 text-center w-1/2 m-auto'>loading...</div> </div>}
+          <div className={active?'mt-10 sm:mt-5 w-fit mx-auto':'hidden '}><App ></App></div>
+        </motion.div> 
     </>
   );
 }
