@@ -28,21 +28,18 @@ ChartJS.register(
 
 
 export default   function Coin({id}){
-    // const id=params.id
 const time=['24h','7d','30d','1y','5y']
   const now = new Date();
         const labels = [];
         for (let i = 23; i >= 0; i--) {
           const hour = new Date(now.getTime() - i * 60 * 60 * 1000);
-          labels.push(hour.toISOString().substring(11, 16)); // Format HH:MM
+          labels.push(hour.toISOString().substring(11, 16));
         }
   const [value,selectedValue]=useState('24h')
 
   const [coin, setCoin] = useState(null);
   const [chartData, setChartData] = useState({ labels: [labels], datasets: [] });
-//   const idd=params.id.join('')
 console.log(id)
-//   console.log('dsd',{params})
   const url1 = `https://coinranking1.p.rapidapi.com/coin/${id}?referenceCurrencyUuid=yhjMzLPhuIDl&timePeriod=${value}`;
   const options1 = {
     method: 'GET',
@@ -96,8 +93,6 @@ const option={
         const coinData = result.data.coin;
         setCoin(coinData);
         console.log(result.data.coin)
-
-        // Generate labels for the last 24 hours
         
       } catch (error) {
         console.error(error);
@@ -113,7 +108,6 @@ const changeValue=(event)=>{
   return (
     <div className='w-full h-full'>
     <div className='m-auto w-2/3 mt-5 main '>
-      {/* <h1 className=''>Coin Details</h1> */}
       {coin ? (
         <div className=''>
           <Link  href='/'><p className='shadow-md cursor-pointer border rounded-md  h-8 w-20 cursor-pointershadow-md    text-center' >Home</p></Link>
@@ -132,7 +126,6 @@ const changeValue=(event)=>{
         <p>Loading...</p>
       )}
       <select onChange={changeValue} value={value} ref={se} className=' mt-5 mb-5 border rounded-md shadow-md h-8 w-16'>{time.map(i=>( <option className='text-black w-40 border text-center'> {i}</option> ))}</select>
-     
       <div className='chart1'><Line className='chart1' data={chartData} options={option} /></div>
      </div>
      </div>

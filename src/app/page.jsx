@@ -15,7 +15,6 @@ import TableRow from './components/TableRow';
 import CoinList from './components/CoinList'
 import GenerarlStats from './components/GeneralStats';
 import { clsx } from 'clsx/lite';
-// import {fetchCoinDataa} from '@/app/components/FetchCoinData'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -62,13 +61,7 @@ export default function Home() {
   };
   const fetchCoinData = async () => {
     try {
-      
-      
-      // const response = await fetchCoin();
-      // const result = await response.json()
       const result=await fetchCoin()
-      console.log(`resilt is ${result}`)
-      // const result1=result.data.coins[1]?.sparkline.map(price => parseFloat(price))
       setGeneral(result.data.stats)
       setCoins(result.data.coins.slice(0, 40));
       setShown(result.data.coins.slice(0, 40));
@@ -79,6 +72,7 @@ export default function Home() {
         labels.push(hour.toISOString().substring(11, 16)); // Format HH:MM
       }
       const data = result.data.coins[0]?.sparkline.map(price => parseFloat(price))
+      const data1 = result.data.coins[1]?.sparkline.map(price => parseFloat(price))
       setChartData({
         labels: labels,
         datasets: [{
@@ -94,7 +88,7 @@ export default function Home() {
         labels: labels,
         datasets: [{
           label: `${result.data.coins[1]?.name} Price (last 24 hours)`,
-          data: result1,
+          data: data1,
           fill: false,
           borderColor: 'blue',
           backgroundColor: 'blue',
@@ -109,11 +103,7 @@ export default function Home() {
     }
   };
   useEffect(() => {
-    // const id=setInterval((loading) => {loading=false;
-    //   console.log(loading)
-    // }, 200);
     fetchCoinData();
-  // return(clearInterval(id));
   }, []);
   const change = () => {
     setSearch(sea.current?.value);
@@ -134,7 +124,7 @@ const [active,setActive]=useState(false)
        <GenerarlStats coins={General}></GenerarlStats>
        <div className='flex flex-row  relative w-[20rem]'> <p className={clsx('rounded-full duration-200 w-1/2 z-[-1] absolute bg-black opacity-20 h-full  ', active&&'translate-x-full')}
 
-       >1</p><div className=' flex w-full font-bold text-xl'> <p className='cursor-pointer w-1/2  text-center px-10' onClick={()=>{setActive(false)}}>Main</p><p onClick={()=>{setActive(true)}} className='w-1/2  cursor-pointer px-10 text-center'>Converter</p></div></div>
+       ></p><div className=' flex w-full font-bold text-xl'> <p className='cursor-pointer w-1/2  text-center px-10' onClick={()=>{setActive(false)}}>Main</p><p onClick={()=>{setActive(true)}} className='w-1/2  cursor-pointer px-10 text-center'>Converter</p></div></div>
        
        <div className={active?'hidden':''}>
        <h3>Top coins :</h3>
@@ -146,12 +136,10 @@ const [active,setActive]=useState(false)
            </div>
            <p>All Coins:</p>
            <div>Search Coin <input placeholder='Example: Bitcoin' className='text-black' ref={sea} value={search} title='Search Coins' onChange={change} type="text" /></div>
-         
           <div className='mt-5'>
             <div   className='table-Header border flex  justify-between  p-3'>
               <span style={{ cursor: 'pointer' }} className='flex gap-8 '># <p>name</p> </span>
               <span className=''>   </span><span className=''>price</span><span>24 hour change</span><span>24h Volume/ Market Cap </span>
-             
             </div>
            <Suspense fallback={<p>load</p>}> {shown.map((i,index)=> <TableRow key={index} coin={i} ></TableRow>
         )}</Suspense>
