@@ -2,7 +2,7 @@
 import {fetchCoin} from './fetchCoin'
 import App from './converter/page'
 import { Line } from 'react-chartjs-2';
-import React, {Suspense ,useEffect, useRef, useState } from 'react';
+import React, {MutableRefObject, Suspense ,useContext,useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import './style.css';
 import { motion } from 'framer-motion';
@@ -15,6 +15,7 @@ import TableRow from './components/TableRow';
 import CoinList from './components/CoinList'
 import GenerarlStats from './components/GeneralStats';
 import { clsx } from 'clsx/lite';
+import {Coins} from '@/app/converter/contextProvider'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -34,15 +35,22 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+type coin={
+  name?:string,
+  price?:number,
+  iconUrl?:string,
+  symbol?:string,
+
+}
 export default function Home() {
   const [loading,setLoading]=useState(false)
   const [General,setGeneral]=useState([])
-  const [coins, setCoins] = useState([]);
-  const [chartData, setChartData] = useState({ labels: [], datasets: [] });
-  const [chartData1, setChartData1] = useState({ labels: [], datasets: [] });
-  const [search, setSearch] = useState('');
-  const [shown, setShown] = useState([]);
-  const sea = useRef(null);
+  const {coins, setCoins} = useContext(Coins);
+  const [chartData, setChartData]:[any,React.Dispatch<React.SetStateAction<any>>] = useState({ labels: [], datasets: [] });
+  const [chartData1, setChartData1]:[any,React.Dispatch<React.SetStateAction<any>>] = useState({ labels: [], datasets: [] });
+  const [search, setSearch]:[string,React.Dispatch<React.SetStateAction<string>>] = useState('');
+  const [shown, setShown]:[any ,React.Dispatch<React.SetStateAction<any>>] = useState([]);
+  const sea:MutableRefObject<null> = useRef(null);
   const url1 = 'https://coinranking1.p.rapidapi.com/coin/Qwsogvtv82FCd?referenceCurrencyUuid=yhjMzLPhuIDl&timePeriod=24h';
   const options1 = {
     method: 'GET',
@@ -71,8 +79,8 @@ export default function Home() {
         const hour = new Date(now.getTime() - i * 60 * 60 * 1000);
         labels.push(hour.toISOString().substring(11, 16)); // Format HH:MM
       }
-      const data = result.data.coins[0]?.sparkline.map(price => parseFloat(price))
-      const data1 = result.data.coins[1]?.sparkline.map(price => parseFloat(price))
+      const data:number[] = result.data.coins[0]?.sparkline.map((price:string) => parseFloat(price))
+      const data1:number[] = result.data.coins[1]?.sparkline.map((price:string) => parseFloat(price))
       setChartData({
         labels: labels,
         datasets: [{
@@ -107,7 +115,7 @@ export default function Home() {
   }, []);
   const change = () => {
     setSearch(sea.current?.value);
-    setShown(coins.filter(i => i.name.toLowerCase().includes(sea.current?.value.toLowerCase())));
+    setShown(coins.filter((i:any) => i.name.toLowerCase().includes(sea.current?.value.toLowerCase())));
   };
 const [active,setActive]=useState(false)
   return (
