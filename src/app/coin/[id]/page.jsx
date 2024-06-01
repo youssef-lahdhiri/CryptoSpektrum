@@ -1,5 +1,5 @@
 import Header from '@/app/components/Header'
-
+import { fetchCoin } from '../../fetchCoin';
 import Coin from './coin'
 export async function generateStaticParams(){
   const option = {
@@ -9,7 +9,7 @@ export async function generateStaticParams(){
       'X-RapidAPI-Host': 'coinranking1.p.rapidapi.com'
     }
   };
-  const res= await fetch('https://coinranking1.p.rapidapi.com/coins',option)
+  const res= await fetchCoin()
   const result =await res.json()
 return (result.data.coins.map(coin=>({id:coin.uuid.toString(),
 })))

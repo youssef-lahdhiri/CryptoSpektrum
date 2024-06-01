@@ -35,38 +35,22 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-type coin={
-  name?:string,
-  price?:number,
-  iconUrl?:string,
-  symbol?:string,
+// type coin={
+//   name?:string,
+//   price?:number,
+//   iconUrl?:string,
+//   symbol?:string,
 
-}
+// }
 export default function Home() {
   const [loading,setLoading]=useState(false)
   const [General,setGeneral]=useState([])
   const {coins, setCoins} = useContext(Coins);
-  const [chartData, setChartData]:[any,React.Dispatch<React.SetStateAction<any>>] = useState({ labels: [], datasets: [] });
-  const [chartData1, setChartData1]:[any,React.Dispatch<React.SetStateAction<any>>] = useState({ labels: [], datasets: [] });
-  const [search, setSearch]:[string,React.Dispatch<React.SetStateAction<string>>] = useState('');
-  const [shown, setShown]:[any ,React.Dispatch<React.SetStateAction<any>>] = useState([]);
-  const sea:MutableRefObject<null> = useRef(null);
-  const url1 = 'https://coinranking1.p.rapidapi.com/coin/Qwsogvtv82FCd?referenceCurrencyUuid=yhjMzLPhuIDl&timePeriod=24h';
-  const options1 = {
-    method: 'GET',
-    headers: {
-      'X-RapidAPI-Key': 'd037705952msh69a7d1cae7247fap11477bjsn8df3a6a779b5',
-      'X-RapidAPI-Host': 'coinranking1.p.rapidapi.com'
-    }
-  };
-  const url = 'https://coinranking1.p.rapidapi.com/coins?referenceCurrencyUuid=yhjMzLPhuIDl&timePeriod=24h&tiers%5B0%5D=1&orderBy=marketCap&orderDirection=desc&limit=50&offset=0';
-  const options = {
-    method: 'GET',
-    headers: {
-      'X-RapidAPI-Key':'d037705952msh69a7d1cae7247fap11477bjsn8df3a6a779b5',
-      'X-RapidAPI-Host': 'coinranking1.p.rapidapi.com'
-    }
-  };
+  const [chartData, setChartData] = useState({ labels: [], datasets: [] });
+  const [chartData1, setChartData1]= useState({ labels: [], datasets: [] });
+  const [search, setSearch] = useState('');
+  const [shown, setShown]= useState([]);
+  const sea = useRef(null);
   const fetchCoinData = async () => {
     try {
       const result=await fetchCoin()
@@ -77,10 +61,10 @@ export default function Home() {
       const labels = [];
       for (let i = 23; i >= 0; i--) {
         const hour = new Date(now.getTime() - i * 60 * 60 * 1000);
-        labels.push(hour.toISOString().substring(11, 16)); // Format HH:MM
+        labels.push(hour.toISOString().substring(11, 16)); 
       }
-      const data:number[] = result.data.coins[0]?.sparkline.map((price:string) => parseFloat(price))
-      const data1:number[] = result.data.coins[1]?.sparkline.map((price:string) => parseFloat(price))
+      const data = result.data.coins[0]?.sparkline.map((price) => parseFloat(price))
+      const data1 = result.data.coins[1]?.sparkline.map((price) => parseFloat(price))
       setChartData({
         labels: labels,
         datasets: [{
@@ -104,8 +88,6 @@ export default function Home() {
         }]
       });
       setLoading(true);
-      console.log(loading)
-      console.log(result);
     } catch (error) {
       console.error(error);
     }
@@ -115,7 +97,7 @@ export default function Home() {
   }, []);
   const change = () => {
     setSearch(sea.current?.value);
-    setShown(coins.filter((i:any) => i.name.toLowerCase().includes(sea.current?.value.toLowerCase())));
+    setShown(coins.filter((i) => i.name.toLowerCase().includes(sea.current?.value.toLowerCase())));
   };
 const [active,setActive]=useState(false)
   return (

@@ -8,7 +8,6 @@ export async function fetchCoin(){
     }
   };
   const response = await fetch(url,options)
-const result = await response.json()
-  console.log(result)
+  const result = await response.json()
   return result 
 }

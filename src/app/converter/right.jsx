@@ -3,7 +3,8 @@ import Select from './select'
 import { useEffect, useRef, useState, useContext } from "react";
 import {Coins} from './contextProvider';
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
-import  {fetchCoin } from './fetchCoin';
+// import  {fetchCoin } from './fetchCoin';
+import { fetchCoin } from '../fetchCoin';
 export default function Rright({children}) {
   const {coins,setCoins}=useContext(Coins)
   const [value, setValue] = useState(1);
@@ -22,17 +23,18 @@ export default function Rright({children}) {
       'X-RapidAPI-Host': 'coinranking1.p.rapidapi.com'
     }
   };
- async function  initlial(){
-const response =await fetch(url,options)
+  async function  initlial(){
+  const response =await fetch(url,options)
   const result=await response.json()
     setCoins(result.data.coins)
-    setFromCoin(result.data.coins[0].name)
-    setToCoin(result.data.coins[1].name)
-    setFromPrice(result.data.coins[0].price)
-    setToPrice(result.data.coins[1].price)};
+   
+    setFromCoin(coins?.[0].name)
+    setToCoin(coins?.[1].name);
+    setFromPrice(coins?.[0].price)
+    setToPrice(coins?.[1].price)};
   useEffect(() => {
     initlial();
-  }, [isCurrLoad]);
+  }, [isCurrLoad,coins]);
 useEffect(()=>{
   setPrice((pricer.current?.value*fromPrice/toPrice))
 },[fromPrice,toPrice])
