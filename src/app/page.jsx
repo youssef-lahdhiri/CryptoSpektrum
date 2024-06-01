@@ -102,7 +102,7 @@ export default function Home() {
 const [active,setActive]=useState(false)
   return (
     <>
-    {coins?
+    {loading?
       <motion.div
       initial={{opacity:0,y:100}}
       animate={{opacity:1,y:0}}
@@ -138,7 +138,7 @@ const [active,setActive]=useState(false)
           <div className={active?'mt-10 sm:mt-5 w-fit mx-auto':'hidden '}><App ></App></div>
         </motion.div> : <div className='w-full flex justify-center  '> <div
   class=" my-auto bg-blue-200 m-12 inline-block h-20 w-20 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
-  role="status">
+  >
   <span
     class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
     >Loading...</span>
