@@ -28,13 +28,13 @@ export default function Rright({children}) {
   const result=await response.json()
     setCoins(result.data.coins)
    
-    setFromCoin(coins?.[0].name)
-    setToCoin(coins?.[1].name);
-    setFromPrice(coins?.[0].price)
-    setToPrice(coins?.[1].price)};
+    setFromCoin(result.data.coins[0].name)
+    setToCoin(result.data.coins[1].name);
+    setFromPrice(result.data.coins[0].price)
+    setToPrice(result.data.coins[1].price)};
   useEffect(() => {
     initlial();
-  }, [isCurrLoad,coins]);
+  }, [isCurrLoad]);
 useEffect(()=>{
   setPrice((pricer.current?.value*fromPrice/toPrice))
 },[fromPrice,toPrice])
