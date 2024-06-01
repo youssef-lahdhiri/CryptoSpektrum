@@ -1,16 +1,17 @@
 import Header from '@/app/components/Header'
-import { fetchCoin } from '../../fetchCoin';
+// import { fetchCoin } from '../../fetchCoin';
 import Coin from './coin'
 export async function generateStaticParams(){
+  const url = 'https://coinranking1.p.rapidapi.com/coins?referenceCurrencyUuid=yhjMzLPhuIDl&timePeriod=24h&tiers%5B0%5D=1&orderBy=marketCap&orderDirection=desc&limit=50&offset=0';
   const option = {
     method: 'GET',
     headers: {
-      'X-RapidAPI-Key':'d037705952msh69a7d1cae7247fap11477bjsn8df3a6a779b5',
+      'X-RapidAPI-Key':process.env.API_KEY,
       'X-RapidAPI-Host': 'coinranking1.p.rapidapi.com'
     }
   };
-  const result= await fetchCoin()
-  // const result =await res.json()
+  const response= await fetch(url,option)
+  const result =await response.json()
 return (result.data.coins.map(coin=>({id:coin.uuid.toString(),
 })))
  }
