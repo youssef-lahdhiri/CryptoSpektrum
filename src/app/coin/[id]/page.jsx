@@ -9,8 +9,8 @@ export async function generateStaticParams(){
       'X-RapidAPI-Host': 'coinranking1.p.rapidapi.com'
     }
   };
-  const res= await fetchCoin()
-  const result =await res.json()
+  const result= await fetchCoin()
+  // const result =await res.json()
 return (result.data.coins.map(coin=>({id:coin.uuid.toString(),
 })))
  }
