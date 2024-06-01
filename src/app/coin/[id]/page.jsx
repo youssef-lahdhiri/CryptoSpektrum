@@ -6,13 +6,13 @@ export async function generateStaticParams(){
   const option = {
     method: 'GET',
     headers: {
-      'X-RapidAPI-Key':process.env.API_KEY,
+      'X-RapidAPI-Key':'d037705952msh69a7d1cae7247fap11477bjsn8df3a6a779b5',
       'X-RapidAPI-Host': 'coinranking1.p.rapidapi.com'
     }
   };
   const response= await fetch(url,option)
   const result =await response.json()
-return (result.data.coins.map(coin=>({id:coin.uuid.toString(),
+return (result.data?.coins.map(coin=>({id:coin.uuid.toString(),
 })))
  }
   export  default async function App({ params }) {
