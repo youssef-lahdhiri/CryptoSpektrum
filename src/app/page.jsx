@@ -51,9 +51,18 @@ export default function Home() {
   const [search, setSearch] = useState('');
   const [shown, setShown]= useState([]);
   const sea = useRef(null);
+  const url = 'https://coinranking1.p.rapidapi.com/coins?referenceCurrencyUuid=yhjMzLPhuIDl&timePeriod=24h&tiers%5B0%5D=1&orderBy=marketCap&orderDirection=desc&limit=50&offset=0';
+  const options = {
+    method: 'GET',
+    headers: {
+      'X-RapidAPI-Key':'d037705952msh69a7d1cae7247fap11477bjsn8df3a6a779b5',
+      'X-RapidAPI-Host': 'coinranking1.p.rapidapi.com'
+    }
+  };
   const fetchCoinData = async () => {
     try {
-      const result=await fetchCoin()
+      const response=await fetch(url,options)
+      const result=await response.json()
       setGeneral(result.data.stats)
       setCoins(result.data.coins.slice(0, 40));
       setShown(result.data.coins.slice(0, 40));
@@ -136,8 +145,8 @@ const [active,setActive]=useState(false)
         )}
           </div></div>
           <div className={active?'mt-10 sm:mt-5 w-fit mx-auto':'hidden '}><App ></App></div>
-        </motion.div> : <div className='w-full flex justify-center  '> <div
-  class=" my-auto bg-blue-200 m-12 inline-block h-20 w-20 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
+        </motion.div> : <div className='w-full flex justify-center   '> <div
+  class="  bg-blue-200 m-12 inline-block h-20 w-20 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
   >
   <span
     class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
